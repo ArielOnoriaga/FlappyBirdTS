@@ -4,10 +4,11 @@ class Bird {
 
   private _flap: number = 35;
   private _flapInterval: NodeJS.Timeout | any;
-  private _flapping: boolean = false;
   private _flapTime: number = 200;
 
+  private _flapping: boolean = false;
   private _flyHeight: number = 0;
+
   private _weight: number = 5;
 
   constructor (container: any) {
@@ -37,12 +38,12 @@ class Bird {
     setTimeout(() => {
       this._setFlyHeight(this._flyHeight - this._flap * 0.3);
       this.draw();
-    }, 40);
+    }, 20);
 
     setTimeout(() => {
       this._setFlyHeight(this._flyHeight - this._flap * 0.6);
       this.draw();
-    }, 10);
+    }, 30);
 
     this._flapInterval = setTimeout(() => {
       this.setFlapping(false);
@@ -51,8 +52,6 @@ class Bird {
 
   public moveDown(): void {
     this._setFlyHeight(this._flyHeight + this._weight);
-
-    this.draw();
   }
 
   get flyHeight(): number {

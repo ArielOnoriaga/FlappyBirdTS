@@ -21,3 +21,15 @@ export interface DrawRectangle {
   color: string;
   cords: Cords;
 }
+
+interface Canvas {
+  container: CanvasElement;
+  ctx: CanvasContext;
+  drawRectangle: (color: string, cords: Cords) => void;
+  height: number;
+  init: () => void;
+  refresh: () => void;
+  width: number;
+}
+
+export default Canvas;

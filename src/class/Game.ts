@@ -2,14 +2,17 @@ import Canvas from "@class/Canvas";
 import Keyboard from "@class/Keys";
 import Bird from "@class/Bird";
 
+// @ts-ignore
+import BirdInterface from "@types/Bird";
+// @ts-ignore
+import CanvasInterface from "@types/canvas";
+
 class Game {
+  private _bird: BirdInterface;
+  private _container: CanvasInterface;
   private _game: number = 0;
-  private _lose: Boolean = false;
   private _keyboard = new Keyboard();
-  private _bird: any;
-
-
-  private _container: any;
+  private _lose: Boolean = false;
 
   constructor(width: number, height: number) {
     this._container = new Canvas(width, height);
@@ -19,8 +22,8 @@ class Game {
 
   public init(): void {
     this.game.init();
-    this._bird.draw();
 
+    this._bird.draw();
     this._bird.flap();
 
     this._setEvents();
@@ -34,13 +37,17 @@ class Game {
     });
 
     setInterval(() => {
-      if(this.lose || this._bird.isFlapping) return;
+      if(this.lose) return;
 
-      this._bird.moveDown();
+      if(!this._bird.isFlapping)
+        this._bird.moveDown();
+
+      this._bird.draw();
 
       if(this._bird.outOfScreen)
         this._gameOver();
-    }, 20);
+
+    }, 15);
   }
 
   get game() {
