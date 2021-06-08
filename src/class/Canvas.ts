@@ -1,7 +1,9 @@
 // @ts-ignore
 import { CanvasElement, CanvasContext, Cords } from "@types/canvas";
 // @ts-ignore
-import PipesInterface from "@types/pipes";
+import PipesInterface from "@types/Pipes";
+// @ts-ignore
+import { Position } from "@types/Bird";
 
 import Pipes from "@class/Pipes";
 
@@ -19,7 +21,7 @@ export class Canvas {
     this._width = width;
     this._height = height;
 
-    const pipes = this._generatePipes()
+    const pipes = this._generatePipes();
     this._setPipes(pipes);
   }
 
@@ -38,7 +40,7 @@ export class Canvas {
   }
 
   private _getHeight(): number {
-    const minHeight = 100;
+    const minHeight = 200;
     const maxHeight = this.height - minHeight;
 
     return Math.floor(Math.random() * (maxHeight - minHeight) + minHeight);
@@ -53,7 +55,7 @@ export class Canvas {
   }
 
   private _addPipe(): void {
-    const pipe = new Pipes(this, this._getHeight());
+    const pipe = new Pipes(this, this._getHeight(), 300);
 
     this._pipes.push(pipe);
   }
@@ -93,14 +95,21 @@ export class Canvas {
     });
   }
 
-  public refresh(): void {
+  public refresh(birdPosition?: Position): void {
     this._drawBackground();
 
-    const [lastPipe] = this._pipes;
+    const [firstPipe] = this._pipes;
 
-    if(lastPipe.position < 0) {
+    if(firstPipe.position < 30) {
       this._addPipe();
       this._removePipe();
+    }
+
+    if(birdPosition) {
+      const  { top, bottom, right } = birdPosition;
+
+      if(firstPipe.isCrossing(right) && !firstPipe.between(top, bottom))
+        throw new Error('Loseeeeer!')
     }
 
     this._pipes.forEach(pipe => pipe.doSteep());

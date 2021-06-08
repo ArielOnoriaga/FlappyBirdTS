@@ -10,7 +10,7 @@ import CanvasInterface from "@types/canvas";
 class Game {
   private _bird: BirdInterface;
   private _container: CanvasInterface;
-  private _game: number = 0;
+  private _game: any = 0;
   private _keyboard = new Keyboard();
   private _lose: Boolean = false;
 
@@ -36,18 +36,24 @@ class Game {
       }
     });
 
-    setInterval(() => {
-      if(this.lose) return;
+      this._game = setInterval(() => {
+        try {
+          if(this.lose) return;
 
-      if(!this._bird.isFlapping)
-        this._bird.moveDown();
+          if(!this._bird.isFlapping)
+            this._bird.moveDown();
 
-      this._bird.draw();
+          this._bird.draw();
 
-      if(this._bird.outOfScreen)
-        this._gameOver();
+          if(this._bird.outOfScreen)
+            throw Error;
 
-    }, 15);
+        } catch (e) {
+          this._gameOver();
+        }
+      }, 12);
+
+
   }
 
   get game() {

@@ -1,5 +1,7 @@
 // @ts-ignore
 import Canvas from "@types/canvas";
+// @ts-ignore
+import { Position } from "@types/Bird";
 
 class Pipe {
   private _container: Canvas;
@@ -48,6 +50,20 @@ class Pipe {
       x: this._currentPosition,
       ...size,
     });
+  }
+
+  public isCrossing(x: number): boolean {
+    const left = this._currentPosition;
+    const right = left + this._width;
+
+    return x > left && x < right;
+  }
+
+  public between(y1: number, y2: number): boolean {
+    const top = this._height;
+    const bottom = top + this._space;
+
+    return y1 > top - 2 && y2 <= bottom + 2;
   }
 
   private _setPosition(): void {

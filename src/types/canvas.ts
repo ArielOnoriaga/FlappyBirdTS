@@ -22,13 +22,16 @@ export interface DrawRectangle {
   cords: Cords;
 }
 
+// @ts-ignore
+import { Position } from "@types/Bird";
+
 interface Canvas {
   container: CanvasElement;
   ctx: CanvasContext;
   drawRectangle: (color: string, cords: Cords) => void;
   height: number;
   init: () => void;
-  refresh: () => void;
+  refresh: (birdPosition: Position) => void;
   width: number;
 }
 

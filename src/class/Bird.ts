@@ -1,3 +1,6 @@
+// @ts-ignore
+import { Position } from "@types/Bird";
+
 class Bird {
   private _birdHeight: number = 50;
   private _container: any;
@@ -10,6 +13,9 @@ class Bird {
   private _flyHeight: number = 0;
 
   private _weight: number = 5;
+  private _xPosition: number = 100;
+
+  private _width: number = 50;
 
   constructor (container: any) {
     this._container = container;
@@ -18,12 +24,12 @@ class Bird {
   }
 
   public draw(): void {
-    this._container.refresh();
+    this._container.refresh(this.position);
 
     this._container.drawRectangle('yellow', {
       height: this._birdHeight,
-      width: 50,
-      x: 100,
+      width: this._width,
+      x: this._xPosition,
       y: this._flyHeight,
     });
   }
@@ -77,6 +83,14 @@ class Bird {
 
   private _setFlyHeight(height: number): void {
     this._flyHeight = height;
+  }
+
+  get position(): Position {
+    return {
+      right: this._xPosition + this._width,
+      top: this._flyHeight,
+      bottom: this._flyHeight + this._birdHeight
+    }
   }
 }
 
